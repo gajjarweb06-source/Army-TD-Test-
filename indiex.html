@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Army Agniveer TD – MCQ Test | प्राचीन भारत</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Rajdhani:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --green: #1b3a1b;
+            --green2: #2d5c27;
+            --gold: #c9a84c;
+            --gold2: #e8c96a;
+            --cream: #f9f4e8;
+            --paper: #fdfaf2;
+            --ink: #1a1208;
+            --correct: #1e7a1e;
+            --wrong: #b22222;
+            --selected: #2a5c8a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--cream);
+            font-family: 'Tiro Devanagari Hindi', serif;
+            color: var(--ink);
+        }
+
+        /* HEADER */
+        .header {
+            background: var(--green);
+            color: white;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 28px;
+        }
+
+        .emblem {
+            font-size: 2.2rem;
+        }
+
+        .htxt {
+            text-align: center;
+            flex: 1;
+        }
+
+        .htxt h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            color: var(--gold2);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .htxt h2 {
+            font-size: 1rem;
+            color: #cce8c4;
+            margin-top: 3px;
+        }
+
+        .htxt p {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: .8rem;
+            color: var(--gold);
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        .meta {
+            background: var(--green2);
+            display: flex;
+            justify-content: center;
+            gap: 36px;
+            padding: 9px 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: .9rem;
+            color: #c6e0be;
+            flex-wrap: wrap;
+        }
+
+        .meta strong {
+            color: var(--gold2);
+        }
+
+        /* SCORE BAR */
+        .scorebar {
+            background: var(--paper);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            margin: 20px 28px;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .score-display {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .score-display span {
+            font-size: .9rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .btn {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 9px 22px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: .95rem;
+            transition: all .2s;
+        }
+
+        .btn-submit {
+            background: var(--green);
+            color: var(--gold2);
+        }
+
+        .btn-submit:hover {
+            background: var(--green2);
+        }
+
+        .btn-reset {
+            background: var(--gold);
+            color: var(--green);
+        }
+
+        .btn-reset:hover {
+            background: var(--gold2);
+        }
+
+        .btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        /* RESULT PANEL */
+        .result-panel {
+            display: none;
+            background: var(--paper);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            margin: 0 28px 16px;
+            padding: 16px 22px;
+            text-align: center;
+        }
+
+        .result-panel.show {
+            display: block;
+        }
+
+        .result-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .result-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+        }
+
+        .stat .val {
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat.correct .val {
+            color: var(--correct);
+        }
+
+        .stat.wrong .val {
+            color: var(--wrong);
+        }
+
+        .stat.skip .val {
+            color: #888;
+        }
+
+        /* QUESTIONS */
+        .qwrap {
+            padding: 0 28px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .sec-title {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--green);
+            color: var(--gold2);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .qcard {
+            background: var(--paper);
+            border-left: 4px solid var(--gold);
+            border-radius: 0 7px 7px 0;
+            margin-bottom: 16px;
+            padding: 15px 18px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, .07);
+        }
+
+        .qcard:nth-child(odd) {
+            background: #faf5ea;
+        }
+
+        .qtop {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .qnum {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--green);
+            min-width: 30px;
+        }
+
+        .qtext {
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+            margin-left: 42px;
+        }
+
+        @media(max-width:560px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .opt {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 13px;
+            border: 2px solid #d4c89a;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: .95rem;
+            transition: all .18s;
+            user-select: none;
+            background: white;
+        }
+
+        .opt:hover {
+            border-color: var(--green2);
+            background: #eef6ec;
+        }
+
+        .opt.selected {
+            border-color: var(--selected);
+            background: #ddeeff;
+        }
+
+        .opt.correct-ans {
+            border-color: var(--correct) !important;
+            background: #d4f4d4 !important;
+        }
+
+        .opt.wrong-ans {
+            border-color: var(--wrong) !important;
+            background: #ffd8d8 !important;
+        }
+
+        .opt-key {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--green);
+            min-width: 18px;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 10px;
+            margin-left: 42px;
+            padding: 10px 14px;
+            background: #f0f8ee;
+            border-left: 3px solid var(--correct);
+            border-radius: 0 5px 5px 0;
+            font-size: .9rem;
+            color: #1a3a1a;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .explanation strong {
+            color: var(--correct);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .footer {
+            background: var(--green);
+            color: var(--gold);
+            text-align: center;
+            padding: 13px;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 2px;
+            font-size: .85rem;
+            border-top: 3px solid var(--gold);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-inner">
+            <div class="emblem">🪖</div>
+            <div class="htxt">
+                <h1>Army Agniveer TD – MCQ Test</h1>
+                <h2>प्राचीन भारतीय इतिहास | Ancient Indian History</h2>
+                <p>✅ सही उत्तर चुनें → Submit करें → Score देखें</p>
+            </div>
+            <div class="emblem">⚔️</div>
+        </div>
+        <div class="meta">
+            <span>📋 प्रश्न: <strong>50</strong></span>
+            <span>⏱ समय: <strong>30 मिनट</strong></span>
+            <span>🏆 अंक: <strong>50</strong></span>
+            <span>❌ नकारात्मक अंकन: <strong>नहीं</strong></span>
+        </div>
+    </div>
+
+    <div class="scorebar">
+        <div class="score-display" id="liveScore">Score: <span>0 / 50</span></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-submit" id="submitBtn" onclick="submitTest()">📊 Submit & Check Answers</button>
+            <button class="btn btn-reset" id="resetBtn" onclick="resetTest()">🔄 Reset Test</button>
+        </div>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-stats">
+            <div class="stat correct"><span class="val" id="rCorrect">0</span>✅ सही</div>
+            <div class="stat wrong"><span class="val" id="rWrong">0</span>❌ गलत</div>
+            <div class="stat skip"><span class="val" id="rSkip">0</span>⏭ छोड़े</div>
+            <div class="stat"><span class="val" id="rPct">0%</span>📊 प्रतिशत</div>
+        </div>
+    </div>
+
+    <div class="qwrap">
+        <div class="sec-title">📜 प्राचीन भारतीय इतिहास — MCQ (1–50)</div>
+        <div id="questionsDiv"></div>
+    </div>
+
+    <div class="footer">🇮🇳 JAI HIND | ARMY AGNIVEER TD | MCQ PRACTICE TEST 🇮🇳</div>
+    <div class="scorebar">
+        <div class="score-display" id="liveScore">Score: <span>0 / 50</span></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-submit" id="submitBtn" onclick="submitTest()">📊 Submit & Check Answers</button>
+            <button class="btn btn-reset" id="resetBtn" onclick="resetTest()">🔄 Reset Test</button>
+        </div>
+    </div>
+    <script>
+        const qs = [
+            { q: "सिंधु घाटी सभ्यता की खोज किस वर्ष हुई?", opts: ["1901", "1921", "1935", "1947"], ans: 1, exp: "सिंधु घाटी सभ्यता की खोज 1921 में दयाराम साहनी ने हड़प्पा स्थल पर की।" },
+            { q: "मोहनजोदड़ो किस नदी के किनारे स्थित है?", opts: ["गंगा", "यमुना", "सिंधु", "सरस्वती"], ans: 2, exp: "मोहनजोदड़ो सिंधु नदी के किनारे (आधुनिक पाकिस्तान) में स्थित था।" },
+            { q: "ऋग्वेद में कुल कितने मंडल हैं?", opts: ["6", "8", "10", "12"], ans: 2, exp: "ऋग्वेद में 10 मंडल और 1028 सूक्त हैं — यह सबसे प्राचीन वेद है।" },
+            { q: "महात्मा बुद्ध का जन्म कहाँ हुआ था?", opts: ["वाराणसी", "बोधगया", "लुम्बिनी", "सारनाथ"], ans: 2, exp: "गौतम बुद्ध का जन्म लुम्बिनी (वर्तमान नेपाल) में 563 ई.पू. में हुआ था।" },
+            { q: "बुद्ध को ज्ञान (निर्वाण) की प्राप्ति कहाँ हुई?", opts: ["सारनाथ", "लुम्बिनी", "बोधगया", "कुशीनगर"], ans: 2, exp: "बुद्ध को बोधगया (बिहार) में पीपल के वृक्ष के नीचे ज्ञान प्राप्त हुआ।" },
+            { q: "महावीर स्वामी का जन्म किस स्थान पर हुआ था?", opts: ["पाटलिपुत्र", "वैशाली", "राजगृह", "नालंदा"], ans: 1, exp: "महावीर स्वामी का जन्म वैशाली के कुण्डग्राम में 599 ई.पू. में हुआ।" },
+            { q: "चंद्रगुप्त मौर्य के गुरु कौन थे?", opts: ["बाणभट्ट", "कालिदास", "चाणक्य", "पतंजलि"], ans: 2, exp: "चाणक्य (कौटिल्य) चंद्रगुप्त के गुरु और प्रधानमंत्री थे, जिन्होंने 'अर्थशास्त्र' लिखा।" },
+            { q: "अशोक के शिलालेख मुख्यतः किस लिपि में हैं?", opts: ["देवनागरी", "खरोष्ठी", "ब्राह्मी", "संस्कृत"], ans: 2, exp: "अशोक के अधिकांश शिलालेख ब्राह्मी लिपि में हैं; कुछ खरोष्ठी में भी हैं।" },
+            { q: "अशोक ने किस युद्ध के बाद बौद्ध धर्म अपनाया?", opts: ["तराइन", "पानीपत", "कलिंग", "हल्दीघाटी"], ans: 2, exp: "261 ई.पू. में कलिंग युद्ध के भीषण नरसंहार से व्यथित होकर अशोक ने बौद्ध धर्म स्वीकार किया।" },
+            { q: "मौर्य साम्राज्य की राजधानी थी:", opts: ["तक्षशिला", "वाराणसी", "पाटलिपुत्र", "उज्जैन"], ans: 2, exp: "पाटलिपुत्र (आधुनिक पटना) मौर्य साम्राज्य की राजधानी थी।" },
+            { q: "'अर्थशास्त्र' ग्रंथ किसने लिखा?", opts: ["वाल्मीकि", "कौटिल्य", "कालिदास", "आर्यभट्ट"], ans: 1, exp: "'अर्थशास्त्र' कौटिल्य (चाणक्य) की रचना है — यह राज्यशास्त्र का ग्रंथ है।" },
+            { q: "गुप्त साम्राज्य का संस्थापक कौन था?", opts: ["समुद्रगुप्त", "चंद्रगुप्त I", "श्रीगुप्त", "कुमारगुप्त"], ans: 2, exp: "श्रीगुप्त को गुप्त वंश का आदि-संस्थापक माना जाता है, परंतु चंद्रगुप्त I ने वास्तविक साम्राज्य बनाया।" },
+            { q: "'भारत का नेपोलियन' किसे कहा जाता है?", opts: ["अशोक", "चंद्रगुप्त II", "समुद्रगुप्त", "स्कंदगुप्त"], ans: 2, exp: "समुद्रगुप्त को उनकी विजयों के कारण 'भारत का नेपोलियन' कहा जाता है।" },
+            { q: "चंद्रगुप्त II का दूसरा नाम क्या था?", opts: ["विक्रमादित्य", "अशोक", "समुद्रगुप्त", "बिंदुसार"], ans: 0, exp: "चंद्रगुप्त II को 'विक्रमादित्य' कहा जाता था — इनके काल में गुप्त साम्राज्य चरमोत्कर्ष पर था।" },
+            { q: "आर्यभट्ट किस क्षेत्र के विद्वान थे?", opts: ["संगीत", "गणित एवं खगोल", "दर्शन", "आयुर्वेद"], ans: 1, exp: "आर्यभट्ट महान गणितज्ञ और खगोलशास्त्री थे — इन्होंने शून्य और पृथ्वी के गोल होने का ज्ञान दिया।" },
+            { q: "कालिदास की प्रसिद्ध रचना कौन सी है?", opts: ["मृच्छकटिक", "अभिज्ञानशाकुंतलम", "मुद्राराक्षस", "रामचरितमानस"], ans: 1, exp: "'अभिज्ञानशाकुंतलम' कालिदास की सर्वश्रेष्ठ नाट्य-रचना है।" },
+            { q: "नालंदा विश्वविद्यालय किस राज्य में था?", opts: ["उत्तर प्रदेश", "मध्य प्रदेश", "बिहार", "राजस्थान"], ans: 2, exp: "नालंदा विश्वविद्यालय बिहार में था — यह 5वीं से 12वीं सदी तक विश्व का प्रमुख शिक्षा केंद्र था।" },
+            { q: "हर्षवर्धन की राजधानी कौन सी थी?", opts: ["पाटलिपुत्र", "कन्नौज", "उज्जैन", "थानेसर"], ans: 1, exp: "हर्षवर्धन की राजधानी कन्नौज (कान्यकुब्ज) थी, हालाँकि वे थानेसर से भी शासन करते थे।" },
+            { q: "'अष्टाध्यायी' किसकी रचना है?", opts: ["पतंजलि", "पाणिनि", "कपिल", "कणाद"], ans: 1, exp: "'अष्टाध्यायी' पाणिनि की रचना है — यह संस्कृत व्याकरण का सर्वोत्तम ग्रंथ है।" },
+            { q: "बौद्ध धर्म के त्रिरत्न कौन से हैं?", opts: ["ब्रह्मा-विष्णु-महेश", "बुद्ध-धम्म-संघ", "अहिंसा-सत्य-अस्तेय", "ज्ञान-भक्ति-कर्म"], ans: 1, exp: "बौद्ध धर्म के तीन रत्न हैं: बुद्ध (गुरु), धम्म (शिक्षा) और संघ (समुदाय)।" },
+            { q: "सिकंदर ने भारत पर आक्रमण किस वर्ष किया?", opts: ["326 ई.पू.", "261 ई.पू.", "185 ई.पू.", "58 ई.पू."], ans: 0, exp: "सिकंदर (Alexander) ने 326 ई.पू. में भारत पर आक्रमण किया और झेलम नदी पर पोरस को हराया।" },
+            { q: "जैन धर्म के 24वें और अंतिम तीर्थंकर कौन हैं?", opts: ["पार्श्वनाथ", "ऋषभदेव", "नेमिनाथ", "महावीर स्वामी"], ans: 3, exp: "महावीर स्वामी जैन धर्म के 24वें और अंतिम तीर्थंकर हैं।" },
+            { q: "सिंधु घाटी सभ्यता का सबसे बड़ा स्नानागार कहाँ मिला?", opts: ["हड़प्पा", "लोथल", "मोहनजोदड़ो", "कालीबंगा"], ans: 2, exp: "विशाल स्नानागार (Great Bath) मोहनजोदड़ो में मिला — यह धार्मिक स्नान के लिए प्रयुक्त था।" },
+            { q: "अजंता की गुफाएँ किस धर्म से संबंधित हैं?", opts: ["हिंदू", "जैन", "बौद्ध", "सिख"], ans: 2, exp: "अजंता की गुफाएँ (महाराष्ट्र) बौद्ध धर्म की चित्रकारी और मूर्तिकला के लिए प्रसिद्ध हैं।" },
+            { q: "चोल साम्राज्य का सबसे प्रसिद्ध राजा कौन था?", opts: ["राजेंद्र चोल I", "कृष्णदेव राय", "पुलकेशी II", "राजा भोज"], ans: 0, exp: "राजेंद्र चोल I ने दक्षिण-पूर्व एशिया तक समुद्री अभियान किए — वे चोलों के सबसे शक्तिशाली राजा थे।" },
+            { q: "संगम साहित्य किस भाषा में है?", opts: ["संस्कृत", "पालि", "तमिल", "तेलुगु"], ans: 2, exp: "संगम साहित्य तमिल भाषा में है — यह दक्षिण भारत की प्राचीनतम साहित्यिक परंपरा है।" },
+            { q: "तक्षशिला विश्वविद्यालय वर्तमान में किस देश में है?", opts: ["भारत", "नेपाल", "बांग्लादेश", "पाकिस्तान"], ans: 3, exp: "तक्षशिला (Taxila) वर्तमान पाकिस्तान के पंजाब प्रांत में स्थित है।" },
+            { q: "महाभारत के रचयिता कौन हैं?", opts: ["वाल्मीकि", "तुलसीदास", "वेदव्यास", "कालिदास"], ans: 2, exp: "महाभारत की रचना वेदव्यास (कृष्ण द्वैपायन) ने की — यह विश्व का सबसे लंबा महाकाव्य है।" },
+            { q: "रामायण के रचयिता कौन हैं?", opts: ["वेदव्यास", "वाल्मीकि", "तुलसीदास", "कबीर"], ans: 1, exp: "संस्कृत रामायण के रचयिता महर्षि वाल्मीकि हैं।" },
+            { q: "प्रयाग प्रशस्ति (Allahabad Pillar Inscription) किसकी प्रशंसा में है?", opts: ["अशोक", "चंद्रगुप्त I", "समुद्रगुप्त", "हर्षवर्धन"], ans: 2, exp: "प्रयाग प्रशस्ति हरिषेण ने लिखी थी — इसमें समुद्रगुप्त की विजयों का वर्णन है।" },
+            { q: "कुषाण वंश का सबसे प्रसिद्ध राजा था:", opts: ["कनिष्क", "विम कडफिसेस", "वासुदेव", "हुविष्क"], ans: 0, exp: "कनिष्क कुषाण वंश का सबसे प्रतापी राजा था — इसके काल में बौद्ध धर्म का विस्तार हुआ।" },
+            { q: "पहली बौद्ध महासंगीति (Council) कहाँ हुई?", opts: ["पाटलिपुत्र", "वैशाली", "राजगृह", "कश्मीर"], ans: 2, exp: "पहली बौद्ध महासंगीति 483 ई.पू. में राजगृह (राजगीर) में अजातशत्रु के काल में हुई।" },
+            { q: "'शून्य' की खोज का श्रेय किसे दिया जाता है?", opts: ["भास्कर", "ब्रह्मगुप्त", "आर्यभट्ट", "वराहमिहिर"], ans: 2, exp: "शून्य (0) की अवधारणा और स्थान-मान प्रणाली का श्रेय आर्यभट्ट को दिया जाता है।" },
+            { q: "पल्लव वंश की राजधानी कहाँ थी?", opts: ["मदुरै", "कांचीपुरम", "तंजावुर", "महाबलीपुरम"], ans: 1, exp: "पल्लव वंश की राजधानी कांचीपुरम (तमिलनाडु) थी।" },
+            { q: "चालुक्य वंश का संस्थापक कौन था?", opts: ["पुलकेशी I", "विक्रमादित्य", "जयसिंह", "मंगलेश"], ans: 0, exp: "बादामी (वातापी) के चालुक्य वंश की स्थापना पुलकेशी I ने की थी।" },
+            { q: "हड़प्पा सभ्यता के लोगों का मुख्य व्यवसाय था:", opts: ["शिकार", "कृषि एवं व्यापार", "पशुपालन", "युद्ध"], ans: 1, exp: "सिंधु घाटी सभ्यता के लोग मुख्यतः कृषि, व्यापार और शिल्पकारी करते थे।" },
+            { q: "वेदों की कुल संख्या कितनी है?", opts: ["2", "3", "4", "6"], ans: 2, exp: "वेद चार हैं: ऋग्वेद, यजुर्वेद, सामवेद और अथर्ववेद।" },
+            { q: "यजुर्वेद में मुख्यतः क्या है?", opts: ["स्तुति मंत्र", "यज्ञ के नियम", "संगीत", "दर्शन"], ans: 1, exp: "यजुर्वेद में यज्ञ और अनुष्ठान के विधि-विधान का वर्णन है।" },
+            { q: "उपनिषदों की कुल संख्या कितनी मानी जाती है?", opts: ["18", "52", "108", "200"], ans: 2, exp: "पारंपरिक रूप से 108 उपनिषद माने जाते हैं, जिनमें 10-13 मुख्य (मुख्य) उपनिषद हैं।" },
+            { q: "अशोक के 'धम्म' की मुख्य विशेषता क्या थी?", opts: ["युद्ध का प्रचार", "नैतिकता और अहिंसा", "जाति व्यवस्था", "पूजा-पाठ"], ans: 1, exp: "अशोक का धम्म नैतिकता, अहिंसा, सहिष्णुता और माता-पिता की सेवा पर आधारित था।" },
+            { q: "चंद्रगुप्त मौर्य ने किस विदेशी शासक को हराया?", opts: ["सिकंदर", "सेल्यूकस निकेटर", "डेरियस", "साइरस"], ans: 1, exp: "305 ई.पू. में चंद्रगुप्त मौर्य ने सेल्यूकस निकेटर को हराया और संधि में काबुल तक का क्षेत्र पाया।" },
+            { q: "महाभारत का युद्ध कहाँ हुआ था?", opts: ["अयोध्या", "कुरुक्षेत्र", "मथुरा", "हस्तिनापुर"], ans: 1, exp: "महाभारत का युद्ध कुरुक्षेत्र (हरियाणा) में पांडवों और कौरवों के बीच हुआ था।" },
+            { q: "'बुद्धचरित' की रचना किसने की?", opts: ["नागार्जुन", "अश्वघोष", "आर्यभट्ट", "बाणभट्ट"], ans: 1, exp: "'बुद्धचरित' अश्वघोष की संस्कृत महाकाव्य रचना है जिसमें बुद्ध का जीवन वर्णित है।" },
+            { q: "गुप्तकाल को 'स्वर्ण युग' क्यों कहते हैं?", opts: ["सोने की खानें थीं", "कला-साहित्य-विज्ञान का उत्कर्ष हुआ", "सबसे बड़ा साम्राज्य था", "कर नहीं लगता था"], ans: 1, exp: "गुप्तकाल में कालिदास, आर्यभट्ट, वराहमिहिर जैसे विद्वान हुए — कला, साहित्य और विज्ञान चरमोत्कर्ष पर थे।" },
+            { q: "महावीर स्वामी के पाँच महाव्रतों में से एक है:", opts: ["ध्यान", "ब्रह्मचर्य", "उपवास", "तीर्थयात्रा"], ans: 1, exp: "जैन धर्म के पाँच महाव्रत हैं: अहिंसा, सत्य, अस्तेय, ब्रह्मचर्य और अपरिग्रह।" },
+            { q: "एलोरा की गुफाएँ किस राजवंश ने बनवाईं?", opts: ["मौर्य", "गुप्त", "राष्ट्रकूट", "चोल"], ans: 2, exp: "एलोरा की गुफाएँ (महाराष्ट्र) मुख्यतः राष्ट्रकूट वंश के काल में निर्मित हुईं।" },
+            { q: "सातवाहन वंश कहाँ स्थापित हुआ था?", opts: ["उत्तर भारत", "दक्षिण-पश्चिम भारत", "पूर्वी भारत", "पश्चिमोत्तर भारत"], ans: 1, exp: "सातवाहन वंश दक्षिण-पश्चिम भारत (महाराष्ट्र व आंध्र) में था — इनकी राजधानी प्रतिष्ठान (पैठन) थी।" },
+            { q: "'इंडिका' पुस्तक किसने लिखी?", opts: ["फाह्यान", "ह्वेनसांग", "मेगस्थनीज", "अलबरूनी"], ans: 2, exp: "मेगस्थनीज सेल्यूकस का दूत था जो चंद्रगुप्त मौर्य के दरबार में आया — उसने 'इंडिका' लिखी।" },
+            { q: "वराहमिहिर किस विषय के विद्वान थे?", opts: ["व्याकरण", "ज्योतिष एवं खगोल", "आयुर्वेद", "नाटक"], ans: 1, exp: "वराहमिहिर गुप्तकाल के प्रसिद्ध ज्योतिषाचार्य और खगोलशास्त्री थे — इनकी 'बृहत्संहिता' प्रसिद्ध है।" },
+            { q: "लोथल (Lothal) किस राज्य में स्थित है?", opts: ["राजस्थान", "पंजाब", "गुजरात", "हरियाणा"], ans: 2, exp: "लोथल सिंधु घाटी सभ्यता का बंदरगाह नगर था — यह गुजरात में स्थित है।" },
+            { q: "'हर्षचरित' किसने लिखी?", opts: ["कालिदास", "बाणभट्ट", "भवभूति", "वेदव्यास"], ans: 1, exp: "'हर्षचरित' बाणभट्ट की संस्कृत गद्य-रचना है जिसमें हर्षवर्धन का जीवनचरित है।" },
+        ];
+
+        function render() {
+            const div = document.getElementById('questionsDiv');
+            div.innerHTML = '';
+            qs.forEach((q, i) => {
+                const card = document.createElement('div');
+                card.className = 'qcard';
+                card.id = 'q' + i;
+
+                let optHTML = q.opts.map((o, j) => `
+      <div class="opt" id="opt_${i}_${j}" onclick="selectOpt(${i},${j})">
+        <span class="opt-key">${['A', 'B', 'C', 'D'][j]}</span>
+        <span>${o}</span>
+      </div>`).join('');
+
+                card.innerHTML = `
+      <div class="qtop">
+        <div class="qnum">Q${i + 1}.</div>
+        <div class="qtext">${q.q}</div>
+      </div>
+      <div class="options">${optHTML}</div>
+      <div class="explanation" id="exp${i}"><strong>✅ सही उत्तर:</strong> ${q.opts[q.ans]}<br>${q.exp}</div>
+    `;
+                div.appendChild(card);
+            });
+        }
+
+        const userAnswers = new Array(50).fill(null);
+        let submitted = false;
+
+        function selectOpt(qi, oi) {
+            if (submitted) return;
+            userAnswers[qi] = oi;
+            ['A', 'B', 'C', 'D'].forEach((_, j) => {
+                const el = document.getElementById(`opt_${qi}_${j}`);
+                el.classList.remove('selected');
+            });
+            document.getElementById(`opt_${qi}_${oi}`).classList.add('selected');
+        }
+
+        function submitTest() {
+            if (submitted) return;
+            submitted = true;
+            let correct = 0, wrong = 0, skip = 0;
+            qs.forEach((q, i) => {
+                const ua = userAnswers[i];
+                if (ua === null) { skip++; }
+                else if (ua === q.ans) { correct++; document.getElementById(`opt_${i}_${ua}`).classList.add('correct-ans'); }
+                else { wrong++; document.getElementById(`opt_${i}_${ua}`).classList.add('wrong-ans'); document.getElementById(`opt_${i}_${q.ans}`).classList.add('correct-ans'); }
+                document.getElementById('exp' + i).classList.add('show');
+            });
+            const pct = Math.round((correct / 50) * 100);
+            document.getElementById('rCorrect').textContent = correct;
+            document.getElementById('rWrong').textContent = wrong;
+            document.getElementById('rSkip').textContent = skip;
+            document.getElementById('rPct').textContent = pct + '%';
+            let emoji = pct >= 80 ? '🏆 शानदार!' : pct >= 60 ? '👍 अच्छा!' : pct >= 40 ? '📚 और पढ़ें' : '💪 मेहनत करें!';
+            document.getElementById('resultTitle').textContent = emoji + ' आपका स्कोर: ' + correct + ' / 50 (' + pct + '%)';
+            document.getElementById('resultPanel').classList.add('show');
+            document.getElementById('liveScore').innerHTML = 'Score: <span>' + correct + ' / 50</span>';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetTest() {
+            submitted = false;
+            userAnswers.fill(null);
+            document.getElementById('resultPanel').classList.remove('show');
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('liveScore').innerHTML = 'Score: <span>0 / 50</span>';
+            render();
+        }
+
+        render();
+    </script>
+</body>
+
+</html>
